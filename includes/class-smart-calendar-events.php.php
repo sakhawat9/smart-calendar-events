@@ -43,25 +43,25 @@ class Smart_Calendar_Events
         $this->define_constants();
         $this->load_dependencies();
         $this->define_common_hooks();
-        // $this->define_admin_hooks();
-        // $this->define_public_hooks();
+        $this->define_admin_hooks();
+        $this->define_public_hooks();
         $this->set_locale();
     }
 
     /**
-	 * Define constant if not already set
-	 *
-	 * @since 2.2.0
-	 *
-	 * @param string      $name Define constant.
-	 * @param string|bool $value Define constant.
-	 */
-	public function define($name, $value)
-	{
-		if (!defined($name)) {
-			define($name, $value);
-		}
-	}
+     * Define constant if not already set
+     *
+     * @since 2.2.0
+     *
+     * @param string      $name Define constant.
+     * @param string|bool $value Define constant.
+     */
+    public function define($name, $value)
+    {
+        if (!defined($name)) {
+            define($name, $value);
+        }
+    }
 
     /**
      * Define constants
@@ -100,21 +100,16 @@ class Smart_Calendar_Events
          */
         require_once SCE_PATH . 'includes/class-smart-calendar-events-i18n.php';
 
-        // /**
-        //  * The class responsible for defining all actions that occur in the admin area.
-        //  */
-        // require_once SCE_PATH . 'admin/class-smart-calendar-events-admin.php';
+        /**
+         * The class responsible for defining all actions that occur in the admin area.
+         */
+        require_once SCE_PATH . 'admin/class-smart-calendar-events-admin.php';
 
-        // /**
-        //  * The class responsible for defining metabox config that occur in the admin area.
-        //  */
-        // require_once SCE_PATH . 'admin/helpers/class-smart-calendar-events-image-resizer.php';
-
-        // /**
-        //  * The class responsible for defining all actions that occur in the public-facing
-        //  * side of the site.
-        //  */
-        // require_once SCE_PATH . 'public/class-smart-calendar-events-public.php';
+        /**
+         * The class responsible for defining all actions that occur in the public-facing
+         * side of the site.
+         */
+        require_once SCE_PATH . 'public/class-smart-calendar-events-public.php';
 
         $this->loader = new Smart_Calendar_Events_Loader();
     }
@@ -145,6 +140,38 @@ class Smart_Calendar_Events
     }
 
     /**
+     * Register all of the hooks related to the admin area functionality
+     * of the plugin.
+     *
+     * @since    1.0.0
+     * @access   private
+     */
+    private function define_admin_hooks()
+    {
+
+        $plugin_admin = new Smart_Calendar_Events_Admin(SCE_PLUGIN_NAME, SCE_VERSION);
+
+        $this->loader->add_action('add_meta_boxes', $plugin_admin, 'add_events_meta_box');
+        $this->loader->add_action('save_post', $plugin_admin, 'save_event_date_meta_box_data');
+        $this->loader->add_filter('manage_smart_calendar_events_columns', $plugin_admin, 'add_event_date_column');
+        $this->loader->add_filter('manage_smart_calendar_events_custom_column', $plugin_admin, 'custom_event_date_column', 10, 2);
+    }
+
+    /**
+     * Register all of the hooks related to the public-facing functionality
+     * of the plugin.
+     *
+     * @since    1.0.0
+     * @access   private
+     */
+    private function define_public_hooks()
+    {
+
+        $plugin_public = new Smart_Calendar_Events_Public(SCE_PLUGIN_NAME, SCE_VERSION);
+
+    }
+
+    /**
      * Run the loader to execute all of the hooks with WordPress.
      *
      * @since    1.0.0
@@ -152,5 +179,32 @@ class Smart_Calendar_Events
     public function run()
     {
         $this->loader->run();
+    }
+
+    /**
+     * @since     1.0.0
+     * @return    string    The name of the plugin.
+     */
+    public function get_plugin_name()
+    {
+        return $this->plugin_name;
+    }
+
+    /**
+     * @since     1.0.0
+     * @return    Smart_Calendar_Events_Loader    Orchestrates the hooks of the plugin.
+     */
+    public function get_loader()
+    {
+        return $this->loader;
+    }
+
+    /**
+     * @since     1.0.0
+     * @return    string    The version number of the plugin.
+     */
+    public function get_version()
+    {
+        return $this->version;
     }
 }
