@@ -18,20 +18,73 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+
 // Include the autoloader
-// require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
-define('SCE_BASENAME', plugin_basename(__FILE__));
-
-require plugin_dir_path( __FILE__ ) . 'includes/class-smart-calendar-events.php.php';
 /**
- * Begins execution of the plugin.
- * @since    1.0.0
+ * The main plugin class
  */
-function smart_calendar_events_run() {
+class Smart_Calendar_Events
+{
+    /**
+     * Plugin version
+     *
+     * @var string
+     */
+    const version = '1.0';
 
-	$plugin = new Smart_Calendar_Events();
-	$plugin->run();
+    /**
+     * Class construcotr
+     */
+    public function __construct()
+    {
+        $this->define_constants();
 
+        if (is_admin()) {
+            new Fixolab\SmartCalendarEvents\Admin();
+        }
+    }
+
+    /**
+     * Define the required plugin constants
+     *
+     * @return void
+     */
+    public function define_constants()
+    {
+        define('SCE_VERSION', self::version);
+        define('SCE_BASENAME', plugin_basename(__FILE__));
+        define('SCE_PATH', plugin_dir_path(dirname(__FILE__)));
+        define('SCE_URL', plugin_dir_url(dirname(__FILE__)));
+    }
+
+    /**
+     * Initializes a singleton instance
+     *
+     * @return \Smart_Calendar_Events
+     */
+    public static function init()
+    {
+        static $instance = false;
+
+        if (!$instance) {
+            $instance = new self();
+        }
+
+        return $instance;
+    }
 }
-smart_calendar_events_run();
+
+/**
+ * Initializes the main plugin
+ *
+ * @return \Smart_Calendar_Events
+ */
+function smart_calendar_events_operations()
+{
+    return Smart_Calendar_Events::init();
+}
+
+// kick-off the plugin
+smart_calendar_events_operations();
