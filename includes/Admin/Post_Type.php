@@ -3,8 +3,10 @@
 namespace Fixolab\SmartCalendarEvents\Admin;
 
 /**
- * Post Type Class
+ * @package    Smart_Calendar_Events
+ * @subpackage Smart_Calendar_Events/admin
  */
+
 class Post_Type
 {
     public function __construct()
@@ -17,6 +19,8 @@ class Post_Type
         if (post_type_exists('calendar-events')) {
             return;
         }
+
+        $plugin_admin = new Post_Meta();
 
         $labels = array(
             'name'               => esc_html__('Calendar Events', 'post type general name', 'smart-calendar-events'),
@@ -42,6 +46,7 @@ class Post_Type
             'publicly_queryable' => true,
             'show_ui'            => true,
             'show_in_menu'       => true,
+            'menu_icon'          => 'dashicons-calendar',
             'query_var'          => true,
             'rewrite'            => array('slug' => 'calendar-events'),
             'capability_type'    => 'post',
@@ -49,11 +54,10 @@ class Post_Type
             'hierarchical'       => false,
             'menu_position'      => null,
             'supports'           => array('title', 'editor', 'thumbnail'),
-            'register_meta_box_cb' => 'add_meta_box',
+            'register_meta_box_cb' => array($plugin_admin, 'add_events_meta_box'), // No longer needed
         );
 
         register_post_type('calendar-events', $args);
+
     }
 }
-
-
