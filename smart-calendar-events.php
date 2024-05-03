@@ -39,11 +39,20 @@ class Smart_Calendar_Events
      */
     public function __construct()
     {
+        add_filter('template_include', array($this, 'load_event_template'));
         $this->define_constants();
 
-        if (is_admin()) {
-            new Fixolab\SmartCalendarEvents\Admin();
+        new Fixolab\SmartCalendarEvents\Admin();
+    }
+
+    public function load_event_template($template) {
+        if (is_singular('calendar-events')) {
+            $custom_template = plugin_dir_path(__FILE__) . 'templates/single-calendar-events.php';
+            if (file_exists($custom_template)) {
+                return $custom_template;
+            }
         }
+        return $template;
     }
 
     /**

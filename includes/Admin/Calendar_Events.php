@@ -1,6 +1,7 @@
 <?php
 
 namespace Fixolab\SmartCalendarEvents\Admin;
+
 /**
  * @package    Smart_Calendar_Events
  * @subpackage Smart_Calendar_Events/admin
@@ -55,8 +56,9 @@ class Calendar_Events
             echo '<strong>' . $day . '</strong><br>';
             if (!empty($event_titles)) {
                 echo '<ul>';
-                foreach ($event_titles as $title) {
-                    echo '<li>' . esc_html($title) . '</li>';
+                foreach ($event_titles as $event) {
+                    $event_url = get_permalink($event->ID); // Get the URL of the single event page
+                    echo '<li><a href="' . esc_url($event_url) . '">' . esc_html($event->post_title) . '</a></li>';
                 }
                 echo '</ul>';
             }
@@ -81,11 +83,12 @@ class Calendar_Events
         foreach ($events as $event) {
             $event_date = get_post_meta($event->ID, 'event_date', true);
             if ($event_date == $date) {
-                $titles[] = $event->post_title;
+                $titles[] = $event;
             }
         }
         return $titles;
     }
+
 
 
     public function get_current_month_events()
