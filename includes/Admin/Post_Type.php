@@ -12,6 +12,8 @@ class Post_Type
     public function __construct()
     {
         add_action('init', array($this, 'register_smart_calendar_events_post_type'));
+        add_action('manage_calendar-events_posts_columns', array($this, 'add_custom_columns'));
+        add_action('manage_calendar-events_posts_custom_column', array($this, 'render_custom_columns'), 10, 2);
     }
 
     public function register_smart_calendar_events_post_type()
@@ -27,14 +29,14 @@ class Post_Type
             'singular_name'      => esc_html__('Calendar Event', 'post type singular name', 'smart-calendar-events'),
             'menu_name'          => esc_html__('Calendar Events', 'admin menu', 'smart-calendar-events'),
             'name_admin_bar'     => esc_html__('Calendar Event', 'add new on admin bar', 'smart-calendar-events'),
-            'add_new'            => esc_html__('Add New', 'event', 'smart-calendar-events'),
-            'add_new_item'       => esc_html__('Add New Calendar Event', 'smart-calendar-events'),
-            'new_item'           => esc_html__('New Calendar Event', 'smart-calendar-events'),
-            'edit_item'          => esc_html__('Edit Calendar Event', 'smart-calendar-events'),
-            'view_item'          => esc_html__('View Calendar Event', 'smart-calendar-events'),
-            'all_items'          => esc_html__('All Calendar Events', 'smart-calendar-events'),
-            'search_items'       => esc_html__('Search Calendar Events', 'smart-calendar-events'),
-            'parent_item_colon'  => esc_html__('Parent Calendar Events:', 'smart-calendar-events'),
+            'add_new'            => esc_html__('Add New Event', 'event', 'smart-calendar-events'),
+            'add_new_item'       => esc_html__('Add New Event', 'smart-calendar-events'),
+            'new_item'           => esc_html__('New Event', 'smart-calendar-events'),
+            'edit_item'          => esc_html__('Edit Event', 'smart-calendar-events'),
+            'view_item'          => esc_html__('View Event', 'smart-calendar-events'),
+            'all_items'          => esc_html__('All Events', 'smart-calendar-events'),
+            'search_items'       => esc_html__('Search Events', 'smart-calendar-events'),
+            'parent_item_colon'  => esc_html__('Parent Events:', 'smart-calendar-events'),
             'not_found'          => esc_html__('No events found.', 'smart-calendar-events'),
             'not_found_in_trash' => esc_html__('No events found in Trash.', 'smart-calendar-events')
         );
@@ -54,10 +56,24 @@ class Post_Type
             'hierarchical'       => false,
             'menu_position'      => null,
             'supports'           => array('title', 'editor', 'thumbnail'),
-            'register_meta_box_cb' => array($plugin_admin, 'add_events_meta_box'), // No longer needed
+            'register_meta_box_cb' => array($plugin_admin, 'add_events_meta_box'),
         );
 
         register_post_type('calendar-events', $args);
+    }
 
+    public function add_custom_columns($columns)
+    {
+        $columns['event_date'] = __('Event Date', 'smart-calendar-events');
+        return $columns;
+    }
+
+    public function render_custom_columns($column, $post_id)
+    {
+        if ($column === 'event_date') {
+            $event_date = get_post_meta($post_id, 'event_date', true);
+            print_r($event_date);
+            echo $event_date;
+        }
     }
 }

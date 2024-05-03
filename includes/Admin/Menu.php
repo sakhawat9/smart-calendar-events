@@ -1,6 +1,10 @@
 <?php
 
 namespace Fixolab\SmartCalendarEvents\Admin;
+/**
+ * @package    Smart_Calendar_Events
+ * @subpackage Smart_Calendar_Events/admin
+ */
 
 class Menu
 {
@@ -11,22 +15,16 @@ class Menu
 
     public function add_submenu_page()
     {
+        $calendar_events = new Calendar_Events();
+
         add_submenu_page(
             'edit.php?post_type=calendar-events',
-            __('Submenu Page Title', 'smart-calendar-events'),
-            __('Submenu Page', 'smart-calendar-events'),
+            __('Calendar Events', 'smart-calendar-events'),
+            __('Calendar Events', 'smart-calendar-events'),
             'manage_options',
             'calendar-events-submenu',
-            array($this, 'submenu_page_callback')
+            array($calendar_events, 'render_custom_admin_page')
         );
     }
 
-    public function submenu_page_callback()
-    {
-        // Content of your submenu page
-        echo '<div class="wrap">';
-        echo '<h1>Submenu Page</h1>';
-        echo '<p>This is a submenu page under the custom post type.</p>';
-        echo '</div>';
-    }
 }
