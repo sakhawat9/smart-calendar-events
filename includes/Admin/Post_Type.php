@@ -12,6 +12,8 @@ class Post_Type
     public function __construct()
     {
         add_action('init', array($this, 'register_smart_calendar_events_post_type'));
+        add_action('manage_calendar-events_posts_columns', array($this, 'add_custom_columns'));
+        add_action('manage_calendar-events_posts_custom_column', array($this, 'render_custom_columns'), 10, 2);
     }
 
     public function register_smart_calendar_events_post_type()
@@ -58,6 +60,20 @@ class Post_Type
         );
 
         register_post_type('calendar-events', $args);
+    }
 
+    public function add_custom_columns($columns)
+    {
+        $columns['event_date'] = __('Event Date', 'smart-calendar-events');
+        return $columns;
+    }
+
+    public function render_custom_columns($column, $post_id)
+    {
+        if ($column === 'event_date') {
+            $event_date = get_post_meta($post_id, 'event_date', true);
+            print_r($event_date);
+            echo $event_date;
+        }
     }
 }

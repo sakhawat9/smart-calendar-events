@@ -1,5 +1,7 @@
 <?php
+
 namespace Fixolab\SmartCalendarEvents\Admin;
+
 /**
  * @package    Smart_Calendar_Events
  * @subpackage Smart_Calendar_Events/admin
@@ -7,6 +9,10 @@ namespace Fixolab\SmartCalendarEvents\Admin;
 
 class Post_Meta
 {
+    public function __construct()
+    {
+        add_action('save_post', array($this, 'save_event_date_meta_box_data'));
+    }
 
     public function add_events_meta_box()
     {
@@ -66,18 +72,5 @@ class Post_Meta
         update_post_meta($post_id, 'event_date', $event_date);
     }
 
-
-    public function add_event_date_column($columns)
-    {
-        $columns['event_date'] = esc_html__('Event Date', 'smart-calendar-events');
-        return $columns;
-    }
-
-    public function custom_event_date_column($column, $post_id)
-    {
-        if ('event_date' === $column) {
-            $event_date = get_post_meta($post_id, 'event_date', true);
-            echo $event_date;
-        }
-    }
 }
+
