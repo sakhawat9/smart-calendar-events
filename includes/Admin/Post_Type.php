@@ -56,7 +56,7 @@ class Post_Type
             'hierarchical'       => false,
             'menu_position'      => null,
             'supports'           => array('title', 'editor', 'thumbnail'),
-            'register_meta_box_cb' => array($plugin_admin, 'add_events_meta_box'), // No longer needed
+            'register_meta_box_cb' => array($plugin_admin, 'add_events_meta_box'),
         );
 
         register_post_type('calendar-events', $args);
