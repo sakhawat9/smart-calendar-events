@@ -21,7 +21,9 @@ if (!defined('ABSPATH')) {
 
 // Include the autoloader
 require_once __DIR__ . '/vendor/autoload.php';
-
+use Fixolab\SmartCalendarEvents\Assets;
+use Fixolab\SmartCalendarEvents\Admin;
+use Fixolab\SmartCalendarEvents\Frontend;
 /**
  * The main plugin class
  */
@@ -39,26 +41,12 @@ class Smart_Calendar_Events
      */
     public function __construct()
     {
-        add_filter('template_include', [$this, 'load_event_template']);
         $this->define_constants();
 
         add_action('plugins_loaded', [$this, 'init_plugin']);
 
         add_action('admin_enqueue_scripts', [$this, 'admin_enqueue_scripts']);
         add_action('wp_enqueue_scripts', [$this, 'frontend_enqueue_scripts']);
-    }
-    public function load_event_template($template)
-    {
-        if (is_singular('calendar-events')) {
-            $custom_template = plugin_dir_path(__FILE__) . 'templates/single-calendar-events.php';
-            if (file_exists($custom_template)) {
-                return $custom_template;
-            }
-        }
-        if (is_post_type_archive('calendar-events')) {
-            return plugin_dir_path(__FILE__) . 'templates/archive-calendar-events.php';
-        }
-        return $template;
     }
 
     /**
@@ -69,13 +57,14 @@ class Smart_Calendar_Events
     public function define_constants()
     {
         define('SCE_VERSION', self::version);
-        define('SCE_BASENAME', plugin_basename(__FILE__));
         define('SCE_FILE', __FILE__);
         define('SCE_PATH', __DIR__);
+        define('SCE_DIR_PATH', plugin_dir_path(__FILE__));
         define('SCE_URL', plugins_url('', SCE_FILE));
         define('SCE_ASSETS', SCE_URL . '/assets');
+        define('SCE_DIR_PATH_TEMPLATES', SCE_DIR_PATH . 'templates/');
     }
-
+    
     /**
      * Initializes a singleton instance
      *
@@ -98,9 +87,9 @@ class Smart_Calendar_Events
      */
     public function init_plugin()
     {
-        new Fixolab\SmartCalendarEvents\Assets();
-        new Fixolab\SmartCalendarEvents\Admin();
-        new Fixolab\SmartCalendarEvents\Frontend();
+        new Assets();
+        new Admin();
+        new Frontend();
     }
     public function admin_enqueue_scripts($hook)
     {
