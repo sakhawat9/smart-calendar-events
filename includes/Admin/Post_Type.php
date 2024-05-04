@@ -55,7 +55,7 @@ class Post_Type
             'has_archive'        => true,
             'hierarchical'       => false,
             'menu_position'      => null,
-            'supports'           => array('title', 'editor', 'thumbnail'),
+            'supports'           => array('title', 'editor', 'excerpt', 'thumbnail'),
             'register_meta_box_cb' => array($plugin_admin, 'add_events_meta_box'),
         );
 
@@ -72,7 +72,6 @@ class Post_Type
     {
         if ($column === 'event_date') {
             $event_date = get_post_meta($post_id, 'event_date', true);
-            print_r($event_date);
             echo $event_date;
         }
     }

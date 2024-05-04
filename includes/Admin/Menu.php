@@ -26,5 +26,4 @@ class Menu
             array($calendar_events, 'render_custom_admin_page')
         );
     }
-
 }
