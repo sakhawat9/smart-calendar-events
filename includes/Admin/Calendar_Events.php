@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Calendar event
  *
@@ -8,6 +9,7 @@
  * @package    Smart_Calendar_Events
  * @subpackage Smart_Calendar_Events/Admin
  */
+
 namespace Fixolab\SmartCalendarEvents\Admin;
 
 /**
@@ -19,19 +21,29 @@ namespace Fixolab\SmartCalendarEvents\Admin;
 
 class Calendar_Events
 {
+    /**
+     * Renders the custom admin page.
+     */
     public function render_custom_admin_page()
     {
-        
+
         $current_month_events = $this->get_current_month_events();
-        
+
         $current_month = date('n');
         $current_year = date('Y');
-        
+
         $num_days = cal_days_in_month(CAL_GREGORIAN, $current_month, $current_year);
-        
+
         include_once __DIR__ . '/views/calendar-template.php';
     }
 
+    /**
+     * Retrieves event titles for a specific date.
+     *
+     * @param array  $events An array of event posts.
+     * @param string $date   The date to filter events by.
+     * @return array An array of event titles.
+     */
     public function get_event_titles_for_date($events, $date)
     {
         $titles = array();
@@ -44,8 +56,11 @@ class Calendar_Events
         return $titles;
     }
 
-
-
+    /**
+     * Retrieves the events for the current month.
+     *
+     * @return array An array of event posts for the current month.
+     */
     public function get_current_month_events()
     {
         $current_month = date('n');
