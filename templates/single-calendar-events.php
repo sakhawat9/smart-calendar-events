@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The template for displaying single events.
  *
@@ -6,39 +7,47 @@
  */
 
 get_header();
+?>
 
-// Start the loop.
-while (have_posts()) :
-    the_post();
-    ?>
-    <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-        <header class="entry-header">
-            <?php the_title('<h1 class="entry-title">', '</h1>'); ?>
-        </header><!-- .entry-header -->
+<div class="grid grid-cols-12  px-4 py-8">
+    <div class="col-start-3 col-span-8">
+        <?php
+        while (have_posts()) :
+            the_post();
+        ?>
 
-        <div class="entry-content">
-            <?php the_content(); ?>
-        </div><!-- .entry-content -->
+            <article id="post-<?php the_ID(); ?>" <?php post_class('bg-white shadow-lg rounded-lg overflow-hidden'); ?>>
+                <header class="entry-header bg-gray-800 text-white px-4 py-6">
+                    <?php the_title('<h1 class="entry-title text-3xl font-bold">', '</h1>'); ?>
+                </header>
 
-        <footer class="entry-footer">
-            <?php
-            // Display event date
-            $event_date = get_post_meta(get_the_ID(), 'event_date', true);
-            if (!empty($event_date)) {
-                echo '<p><strong>' . __('Event Date:', 'your-text-domain') . '</strong> ' . esc_html($event_date) . '</p>';
-            }
-            ?>
-        </footer><!-- .entry-footer -->
-    </article><!-- #post-<?php the_ID(); ?> -->
+                <?php if (has_post_thumbnail()) : ?>
+                    <div class="entry-thumbnail">
+                        <?php the_post_thumbnail('large', ['class' => 'w-full h-auto']); ?>
+                    </div>
+                <?php endif; ?>
 
-    <?php
-    // If comments are open or we have at least one comment, load up the comment template.
-    if (comments_open() || get_comments_number()) :
-        comments_template();
-    endif;
+                <div class="entry-content px-4 py-6">
+                    <?php the_content(); ?>
+                </div>
 
-// End of the loop.
-endwhile;
+                <footer class="entry-footer bg-gray-200 text-gray-800 px-4 py-6">
+                    <?php
+                    // Display event date
+                    $event_date = get_post_meta(get_the_ID(), 'event_date', true);
+                    if (!empty($event_date)) {
+                        echo '<p><strong>' . __('Event Date:', 'smart-calendar-events') . '</strong> ' . esc_html($event_date) . '</p>';
+                    }
+                    ?>
+                </footer>
+            </article>
 
+        <?php
+        // End of the loop.
+        endwhile;
+        ?>
+
+    </div>
+</div>
+<?php
 get_footer();
-

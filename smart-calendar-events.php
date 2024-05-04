@@ -39,18 +39,24 @@ class Smart_Calendar_Events
      */
     public function __construct()
     {
-        add_filter('template_include', array($this, 'load_event_template'));
+        add_filter('template_include', [$this, 'load_event_template']);
         $this->define_constants();
 
-        new Fixolab\SmartCalendarEvents\Admin();
-    }
+        add_action('plugins_loaded', [$this, 'init_plugin']);
 
-    public function load_event_template($template) {
+        add_action('admin_enqueue_scripts', [$this, 'admin_enqueue_scripts']);
+        add_action('wp_enqueue_scripts', [$this, 'frontend_enqueue_scripts']);
+    }
+    public function load_event_template($template)
+    {
         if (is_singular('calendar-events')) {
             $custom_template = plugin_dir_path(__FILE__) . 'templates/single-calendar-events.php';
             if (file_exists($custom_template)) {
                 return $custom_template;
             }
+        }
+        if (is_post_type_archive('calendar-events')) {
+            return plugin_dir_path(__FILE__) . 'templates/archive-calendar-events.php';
         }
         return $template;
     }
@@ -64,8 +70,10 @@ class Smart_Calendar_Events
     {
         define('SCE_VERSION', self::version);
         define('SCE_BASENAME', plugin_basename(__FILE__));
-        define('SCE_PATH', plugin_dir_path(dirname(__FILE__)));
-        define('SCE_URL', plugin_dir_url(dirname(__FILE__)));
+        define('SCE_FILE', __FILE__);
+        define('SCE_PATH', __DIR__);
+        define('SCE_URL', plugins_url('', SCE_FILE));
+        define('SCE_ASSETS', SCE_URL . '/assets');
     }
 
     /**
@@ -82,6 +90,30 @@ class Smart_Calendar_Events
         }
 
         return $instance;
+    }
+    /**
+     * Initialize the plugin
+     *
+     * @return void
+     */
+    public function init_plugin()
+    {
+        new Fixolab\SmartCalendarEvents\Assets();
+        new Fixolab\SmartCalendarEvents\Admin();
+        new Fixolab\SmartCalendarEvents\Frontend();
+    }
+    public function admin_enqueue_scripts($hook)
+    {
+        if ($hook == 'calendar-events_page_calendar-events-submenu') {
+            wp_enqueue_script('admin-page-tailwind', '//cdn.tailwindcss.com', [], '1.0', [
+                'in_footer' => true,
+                'strategy' => 'defer'
+            ]);
+        }
+    }
+    public function frontend_enqueue_scripts()
+    {
+        wp_enqueue_style('tailwind-css', '//cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css');
     }
 }
 
