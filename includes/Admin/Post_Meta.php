@@ -15,7 +15,7 @@ class Post_Meta
      */
     public function __construct()
     {
-        add_action('save_post', array($this, 'save_event_date_meta_box_data'));
+        add_action('save_post', [$this, 'save_event_date_meta_box_data']);
     }
 
     /**

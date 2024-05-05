@@ -44,6 +44,7 @@ class Smart_Calendar_Events
         $this->define_constants();
 
         add_action('plugins_loaded', [$this, 'init_plugin']);
+        register_activation_hook( __FILE__, [$this, 'plugin_activate'] );
     }
 
     /**
@@ -54,6 +55,7 @@ class Smart_Calendar_Events
     public function define_constants()
     {
         define('SCE_VERSION', self::version);
+        define('SCE_BASENAME', plugin_basename(__FILE__));
         define('SCE_FILE', __FILE__);
         define('SCE_PATH', __DIR__);
         define('SCE_DIR_PATH', plugin_dir_path(__FILE__));
@@ -87,6 +89,12 @@ class Smart_Calendar_Events
         new Assets();
         new Admin();
         new Frontend();
+
+        load_plugin_textdomain('smart-calendar-events', false, dirname(SCE_BASENAME) . '/languages/');
+    }
+
+    function plugin_activate() {
+        flush_rewrite_rules();
     }
 }
 

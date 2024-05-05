@@ -15,15 +15,10 @@ class Post_Type
      */
     public function __construct()
     {
-        add_action('init', array($this, 'register_smart_calendar_events_post_type'));
-        add_action('manage_calendar-events_posts_columns', array($this, 'add_custom_columns'));
-        add_action('manage_calendar-events_posts_custom_column', array($this, 'render_custom_columns'), 10, 2);
+        add_action('init', [$this, 'register_smart_calendar_events_post_type']);
+        add_action('manage_calendar-events_posts_columns', [$this, 'add_custom_columns']);
+        add_action('manage_calendar-events_posts_custom_column', [$this, 'render_custom_columns'], 10, 2);
     }
-
-
-    
-
-
 
     /**
      * Register the custom post type for calendar events.

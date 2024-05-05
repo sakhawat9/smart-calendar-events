@@ -1,0 +1,139 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Smart Calendar Events\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-05 15:07+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.6.7; wp-6.5.2\n"
+"X-Domain: smart-calendar-events"
+
+#: includes/Admin/views/calendar-header.php:16
+msgid "Add event"
+msgstr ""
+
+#: includes/Admin/Post_Type.php:39 includes/Admin/Post_Type.php:40
+msgid "Add New Event"
+msgstr ""
+
+#: includes/Admin/Post_Type.php:44
+msgid "All Events"
+msgstr ""
+
+#: includes/Admin/Post_Type.php:36 includes/Admin/Post_Type.php:38
+msgid "Calendar Event"
+msgstr ""
+
+#: includes/Admin/Post_Type.php:35 includes/Admin/Post_Type.php:37
+#: includes/Admin/views/calendar-header.php:3
+msgid "Calendar Events"
+msgstr ""
+
+#: includes/Admin/Menu.php:30 includes/Admin/Menu.php:31
+msgid "Calendar Events Table"
+msgstr ""
+
+#: includes/Admin/Post_Type.php:79
+msgid "Date"
+msgstr ""
+
+#: includes/Admin/Post_Meta.php:48
+msgid "Date:"
+msgstr ""
+
+#: includes/Admin/Post_Type.php:53
+msgid "Description."
+msgstr ""
+
+#: includes/Admin/Post_Type.php:42
+msgid "Edit Event"
+msgstr ""
+
+#: includes/Admin/Post_Meta.php:28 includes/Admin/Post_Type.php:78
+msgid "Event Date"
+msgstr ""
+
+#: templates/archive-calendar-events.php:39
+#: templates/single-calendar-events.php:33 includes/Frontend/Shortcode.php:60
+msgid "Event Date:"
+msgstr ""
+
+#. Author of the plugin
+msgid "Foysal Imran"
+msgstr ""
+
+#: includes/Admin/views/calendar-template.php:13
+msgid "Friday"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://fixolab.com"
+msgstr ""
+
+#: includes/Admin/views/calendar-template.php:9
+msgid "Monday"
+msgstr ""
+
+#: includes/Admin/Post_Type.php:41
+msgid "New Event"
+msgstr ""
+
+#: includes/Admin/Post_Type.php:48
+msgid "No events found in Trash."
+msgstr ""
+
+#: templates/archive-calendar-events.php:50 includes/Admin/Post_Type.php:47
+msgid "No events found."
+msgstr ""
+
+#: includes/Admin/Post_Type.php:46
+msgid "Parent Events:"
+msgstr ""
+
+#: includes/Admin/views/calendar-template.php:14
+msgid "Saturday"
+msgstr ""
+
+#: includes/Admin/Post_Type.php:45
+msgid "Search Events"
+msgstr ""
+
+#. Name of the plugin
+msgid "Smart Calendar Events"
+msgstr ""
+
+#. Description of the plugin
+msgid "Smart calendar events plugin for wordPress."
+msgstr ""
+
+#: includes/Admin/views/calendar-template.php:8
+msgid "Sunday"
+msgstr ""
+
+#: includes/Admin/views/calendar-template.php:12
+msgid "Thursday"
+msgstr ""
+
+#: includes/Admin/Post_Type.php:77
+msgid "Title"
+msgstr ""
+
+#: includes/Admin/views/calendar-template.php:10
+msgid "Tuesday"
+msgstr ""
+
+#: includes/Admin/Post_Type.php:43
+msgid "View Event"
+msgstr ""
+
+#: includes/Admin/views/calendar-template.php:11
+msgid "Wednesday"
+msgstr ""
