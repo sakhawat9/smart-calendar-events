@@ -3,17 +3,24 @@
 namespace Fixolab\SmartCalendarEvents\Admin;
 
 /**
+ * Post Meta class
  * @package    Smart_Calendar_Events
  * @subpackage Smart_Calendar_Events/admin
  */
 
 class Post_Meta
 {
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         add_action('save_post', array($this, 'save_event_date_meta_box_data'));
     }
 
+    /**
+     * Add meta box for event date.
+     */
     public function add_events_meta_box()
     {
         add_meta_box(
@@ -26,6 +33,11 @@ class Post_Meta
         );
     }
 
+    /**
+     * Callback function to render the event date meta box content.
+     *
+     * @param WP_Post $post The current post object.
+     */
     public function event_date_meta_box_callback($post)
     {
         wp_nonce_field('event_date_meta_box', 'event_date_meta_box_nonce');
@@ -38,39 +50,30 @@ class Post_Meta
         echo '<input type="date" id="event_date" name="event_date" value="' . esc_attr($event_date) . '" />';
     }
 
+    /**
+     * Save event date meta box data when the post is saved.
+     *
+     * @param int $post_id The ID of the post being saved.
+     */
     public function save_event_date_meta_box_data($post_id)
     {
-        // Check if nonce field is set
         if (!isset($_POST['event_date_meta_box_nonce'])) {
             return;
         }
-
         // Verify nonce
         if (!wp_verify_nonce($_POST['event_date_meta_box_nonce'], 'event_date_meta_box')) {
             return;
         }
-
-        // Check if autosave is in progress
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
             return;
         }
-
-        // Check if current user can edit post
         if (!current_user_can('edit_post', $post_id)) {
             return;
         }
-
-        // Check if event date is set in the post data
         if (!isset($_POST['event_date'])) {
             return;
         }
-
-        // Sanitize event date
         $event_date = sanitize_text_field($_POST['event_date']);
-
-        // Update post meta with sanitized event date
         update_post_meta($post_id, 'event_date', $event_date);
     }
-
 }
-

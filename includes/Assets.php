@@ -5,14 +5,16 @@ namespace Fixolab\SmartCalendarEvents;
 /**
  * Assets handlers class
  */
-class Assets {
+class Assets
+{
 
     /**
      * Class constructor
      */
-    function __construct() {
-        add_action( 'wp_enqueue_scripts', [ $this, 'register_assets' ] );
-        add_action( 'admin_enqueue_scripts', [ $this, 'register_assets' ] );
+    function __construct()
+    {
+        add_action('wp_enqueue_scripts', [$this, 'register_assets']);
+        add_action('admin_enqueue_scripts', [$this, 'register_assets']);
     }
 
     /**
@@ -20,12 +22,13 @@ class Assets {
      *
      * @return array
      */
-    public function get_scripts() {
+    public function get_scripts()
+    {
         return [
             'sce-admin-script' => [
                 'src'     => SCE_ASSETS . '/js/custom-script.js',
-                'version' => filemtime( SCE_PATH . '/assets/js/custom-script.js' ),
-                'deps'    => [ 'jquery', 'wp-util' ]
+                'version' => filemtime(SCE_PATH . '/assets/js/custom-script.js'),
+                'deps'    => ['jquery']
             ],
         ];
     }
@@ -35,11 +38,17 @@ class Assets {
      *
      * @return array
      */
-    public function get_styles() {
+    public function get_styles()
+    {
         return [
             'sce-admin-style' => [
-                'src'     => SCE_ASSETS . '/css/custom-style.css',
-                'version' => filemtime( SCE_PATH . '/assets/css/custom-style.css' )
+                'src'     => SCE_ASSETS . '/css/admin.css',
+                'version' => filemtime(SCE_PATH . '/assets/css/admin.css')
+            ],
+
+            'sce-frontend-style' => [
+                'src'     => SCE_ASSETS . '/css/frontend.css',
+                'version' => filemtime(SCE_PATH . '/assets/css/frontend.css')
             ],
         ];
     }
@@ -49,18 +58,19 @@ class Assets {
      *
      * @return void
      */
-    public function register_assets() {
+    public function register_assets()
+    {
         $scripts = $this->get_scripts();
         $styles  = $this->get_styles();
-        
-        foreach ( $scripts as $handle => $script ) {
-            $deps = isset( $script['deps'] ) ? $script['deps'] : false;
-            wp_register_script( $handle, $script['src'], $deps, $script['version'], true );
+
+        foreach ($scripts as $handle => $script) {
+            $deps = isset($script['deps']) ? $script['deps'] : false;
+            wp_register_script($handle, $script['src'], $deps, $script['version'], true);
         }
 
-        foreach ( $styles as $handle => $style ) {
-            $deps = isset( $style['deps'] ) ? $style['deps'] : false;
-            wp_register_style( $handle, $style['src'], $deps, $style['version'] );
+        foreach ($styles as $handle => $style) {
+            $deps = isset($style['deps']) ? $style['deps'] : false;
+            wp_register_style($handle, $style['src'], $deps, $style['version']);
         }
     }
 }

@@ -3,18 +3,31 @@
 namespace Fixolab\SmartCalendarEvents\Frontend;
 
 /**
+ * Shortcode class
  * @package    Smart_Calendar_Events
  * @subpackage Smart_Calendar_Events/frontend
  */
 
 class Shortcode
 {
+    /**
+     * Constructor
+     */
     public function __construct()
     {
-        add_shortcode('smart-calendar-events', array($this, 'sce_shortcode_render'));
+        add_shortcode('smart-calendar-events', array($this, 'sce_shortcode'));
     }
 
-    public function sce_shortcode_render($attributes)
+    /**
+     * Render the shortcode for displaying calendar events.
+     *
+     * This function retrieves calendar events and generates HTML output to display them.
+     * Each event is displayed with its title, date, excerpt, and thumbnail image.
+     *
+     * @param array $attributes Shortcode attributes (if any).
+     * @return string HTML output for displaying calendar events.
+     */
+    public function sce_shortcode($attributes)
     {
         $args = array(
             'post_type'      => 'calendar-events',

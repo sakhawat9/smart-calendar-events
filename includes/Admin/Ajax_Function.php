@@ -1,26 +1,24 @@
 <?php
 
-/**
- * Calendar event
- *
- * @link       https://fixolab.com
- * @since      1.0.0
- *
- * @package    Smart_Calendar_Events
- * @subpackage Smart_Calendar_Events/Admin
- */
-
 namespace Fixolab\SmartCalendarEvents\Admin;
 
 /**
- * Calendar event class
- *
+ * Ajax_Function Class
  * @package    Smart_Calendar_Events
  * @subpackage Smart_Calendar_Events/admin
  */
 
-class Calendar_Events
+class Ajax_Function
 {
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        add_action('wp_ajax_get_month_events', [$this, 'get_month_events']);
+        add_action('wp_ajax_nopriv_get_month_events', [$this, 'get_month_events']);
+    }
+
     /**
      * Retrieves event titles for a specific date.
      *
@@ -28,7 +26,6 @@ class Calendar_Events
      * @param string $date   The date to filter events by.
      * @return array An array of event titles.
      */
-
     public function get_event_titles_for_date($events, $date)
     {
         $titles = array();
@@ -41,11 +38,13 @@ class Calendar_Events
         return $titles;
     }
 
-    public function get_current_month_events()
+    /**
+     * Retrieves events for the selected month and year and updates the calendar.
+     */
+    public function get_month_events()
     {
-        $current_month = date('n');
-        $current_year = date('Y');
-
+        $current_month = isset($_POST['month']) ? $_POST['month'] : '';
+        $current_year = isset($_POST['year']) ? $_POST['year'] : '';
         $start_date = date('Y-m-01', strtotime($current_year . '-' . $current_month . '-01'));
         $end_date = date('Y-m-t', strtotime($current_year . '-' . $current_month . '-01'));
 
@@ -65,13 +64,12 @@ class Calendar_Events
         $events_query = new \WP_Query($args);
         $current_month_events = $events_query->posts;
         $num_days = cal_days_in_month(CAL_GREGORIAN, $current_month, $current_year);
-?>
-        <div class="wrap">
-            <?php
-            include_once __DIR__ . '/views/calendar-header.php';
-            include_once __DIR__ . '/views/calendar-template.php';
-            ?>
-        </div>
-<?php
+
+        ob_start();
+        include_once __DIR__ . '/views/calendar-template.php';
+        $output = ob_get_clean();
+        echo $output;
+
+        wp_die();
     }
 }

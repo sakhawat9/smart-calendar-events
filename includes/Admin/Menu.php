@@ -1,18 +1,26 @@
 <?php
 
 namespace Fixolab\SmartCalendarEvents\Admin;
+
 /**
+ * Menu Class
  * @package    Smart_Calendar_Events
  * @subpackage Smart_Calendar_Events/admin
  */
 
 class Menu
 {
+    /**
+     * Constructor
+     */
     public function __construct()
     {
-        add_action('admin_menu', array($this, 'add_submenu_page'));
+        add_action('admin_menu', [$this, 'add_submenu_page']);
     }
 
+    /**
+     * Add submenu page under the Calendar Events menu.
+     */
     public function add_submenu_page()
     {
         $calendar_events = new Calendar_Events();
@@ -23,7 +31,7 @@ class Menu
             __('Calendar Events', 'smart-calendar-events'),
             'manage_options',
             'calendar-events-submenu',
-            array($calendar_events, 'render_custom_admin_page')
+            array($calendar_events, 'get_current_month_events')
         );
     }
 }

@@ -1,10 +1,5 @@
 
     <div id="calendar" data-current-month="<?php echo $current_month; ?>" data-current-year="<?php echo $current_year; ?>">
-    <header class="flex justify-between items-center py-4 px-6 border border-gray-200">
-
-<h1 id="calendarMonth" class="text-lg font-bold !p-0"><time><?php echo date('F Y', mktime(0, 0, 0, $current_month, 1, $current_year)); ?></time></h1>
-
-</header>
         <table class="event-calendar border border-gray-200 w-full">
             <thead class="border-b border-gray-200">
                 <tr>

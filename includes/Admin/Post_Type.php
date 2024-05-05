@@ -3,12 +3,16 @@
 namespace Fixolab\SmartCalendarEvents\Admin;
 
 /**
+ * Post Type class
  * @package    Smart_Calendar_Events
  * @subpackage Smart_Calendar_Events/admin
  */
 
 class Post_Type
 {
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         add_action('init', array($this, 'register_smart_calendar_events_post_type'));
@@ -16,6 +20,9 @@ class Post_Type
         add_action('manage_calendar-events_posts_custom_column', array($this, 'render_custom_columns'), 10, 2);
     }
 
+    /**
+     * Register the custom post type for calendar events.
+     */
     public function register_smart_calendar_events_post_type()
     {
         if (post_type_exists('calendar-events')) {
