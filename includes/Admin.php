@@ -15,6 +15,7 @@ class Admin {
 	public function __construct() {	
 		new Admin\Menu();
 		new Admin\Post_Type();
+		new Admin\Ajax_Function();
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin_assets' ] );
     }    
 

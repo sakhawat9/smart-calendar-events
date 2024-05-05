@@ -16,8 +16,14 @@ class Frontend
     public function __construct()
     {
         add_filter('template_include', [$this, 'load_event_template']);
-        
+
         new Frontend\Shortcode();
+        add_action( 'wp_enqueue_scripts', [$this, 'frontend_assets'] );
+    }
+
+    public function frontend_assets() {
+
+        wp_enqueue_style( 'sce-frontend-style' );
     }
 
     public function load_event_template($template)
