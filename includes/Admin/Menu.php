@@ -34,7 +34,7 @@ class Menu
             __('Calendar Events', 'smart-calendar-events'),
             'manage_options',
             'calendar-events-submenu',
-            array($calendar_events, 'render_custom_admin_page')
+            array($calendar_events, 'get_current_month_events')
         );
     }
 
