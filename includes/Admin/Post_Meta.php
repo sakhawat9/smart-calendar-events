@@ -28,7 +28,7 @@ class Post_Meta
             __('Event Date', 'smart-calendar-events'),
             array($this, 'event_date_meta_box_callback'),
             'calendar-events',
-            'side',
+            'normal',
             'default'
         );
     }

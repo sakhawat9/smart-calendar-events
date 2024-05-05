@@ -20,6 +20,11 @@ class Post_Type
         add_action('manage_calendar-events_posts_custom_column', array($this, 'render_custom_columns'), 10, 2);
     }
 
+
+    
+
+
+
     /**
      * Register the custom post type for calendar events.
      */
@@ -32,11 +37,11 @@ class Post_Type
         $plugin_admin = new Post_Meta();
 
         $labels = array(
-            'name'               => esc_html__('Calendar Events', 'post type general name', 'smart-calendar-events'),
-            'singular_name'      => esc_html__('Calendar Event', 'post type singular name', 'smart-calendar-events'),
-            'menu_name'          => esc_html__('Calendar Events', 'admin menu', 'smart-calendar-events'),
-            'name_admin_bar'     => esc_html__('Calendar Event', 'add new on admin bar', 'smart-calendar-events'),
-            'add_new'            => esc_html__('Add New Event', 'event', 'smart-calendar-events'),
+            'name'               => esc_html__('Calendar Events', 'smart-calendar-events'),
+            'singular_name'      => esc_html__('Calendar Event', 'smart-calendar-events'),
+            'menu_name'          => esc_html__('Calendar Events', 'smart-calendar-events'),
+            'name_admin_bar'     => esc_html__('Calendar Event', 'smart-calendar-events'),
+            'add_new'            => esc_html__('Add New Event', 'smart-calendar-events'),
             'add_new_item'       => esc_html__('Add New Event', 'smart-calendar-events'),
             'new_item'           => esc_html__('New Event', 'smart-calendar-events'),
             'edit_item'          => esc_html__('Edit Event', 'smart-calendar-events'),
@@ -71,15 +76,22 @@ class Post_Type
 
     public function add_custom_columns($columns)
     {
-        $columns['event_date'] = __('Event Date', 'smart-calendar-events');
-        return $columns;
+
+        $columns = array(
+            'cb' => $columns['cb'],
+            'title' => __( 'Title', 'smart-calendar-events' ),
+            'event_date' => __( 'Event Date', 'smart-calendar-events' ),
+            'date' => __( 'Date', 'smart-calendar-events' ),
+          );
+
+          return $columns;
     }
 
     public function render_custom_columns($column, $post_id)
     {
         if ($column === 'event_date') {
             $event_date = get_post_meta($post_id, 'event_date', true);
-            echo $event_date;
+            echo esc_html($event_date);
         }
     }
 }

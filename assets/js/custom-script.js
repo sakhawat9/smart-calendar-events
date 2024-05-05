@@ -2,8 +2,8 @@ jQuery(document).ready(function($) {
     $('#prevMonth, #nextMonth').on('click', function() {
         var currentMonth = parseInt($('#calendar').data('current-month'));
         var currentYear = parseInt($('#calendar').data('current-year'));
+        var eventNonce = $('#calendar').data('event-nonce');
         var direction = $(this).attr('id') === 'prevMonth' ? -1 : 1;
-
         // Calculate the new month and year values
         var newMonth = currentMonth + direction;
         var newYear = currentYear;
@@ -22,6 +22,7 @@ jQuery(document).ready(function($) {
             type: 'POST',
             data: {
                 action: 'get_month_events',
+                nonce: eventNonce,
                 month: newMonth,
                 year: newYear,
             },

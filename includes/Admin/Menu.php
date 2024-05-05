@@ -27,8 +27,8 @@ class Menu
 
         add_submenu_page(
             'edit.php?post_type=calendar-events',
-            __('Calendar Events', 'smart-calendar-events'),
-            __('Calendar Events', 'smart-calendar-events'),
+            __('Calendar Events Table', 'smart-calendar-events'),
+            __('Calendar Events Table', 'smart-calendar-events'),
             'manage_options',
             'calendar-events-submenu',
             array($calendar_events, 'get_current_month_events')

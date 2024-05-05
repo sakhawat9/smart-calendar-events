@@ -44,7 +44,7 @@ get_header();
 
                 endwhile;
                 $output .= '</div>';
-                echo $output;
+                echo wp_kses_post($output);
                 ?>
             <?php else : ?>
                 <p><?php esc_html_e('No events found.', 'smart-calendar-events'); ?></p>

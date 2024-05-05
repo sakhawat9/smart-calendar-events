@@ -29,12 +29,15 @@ class Shortcode
      */
     public function sce_shortcode($attributes)
     {
+        $post_per_page = isset($attributes['post-per-page']) ? $attributes['post-per-page'] : 6;
+        $order = isset($attributes['order']) ? $attributes['order'] : 'ASC';
+        
         $args = array(
             'post_type'      => 'calendar-events',
-            'posts_per_page' => 6,
+            'posts_per_page' => $post_per_page,
             'orderby' => 'meta_value',
             'meta_key' => 'event_date',
-            'order' => 'ASC',
+            'order' => $order,
         );
 
         $events_query = new \WP_Query($args);

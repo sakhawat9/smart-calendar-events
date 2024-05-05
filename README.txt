@@ -11,7 +11,7 @@ Smart calendar events plugin for wordPress.
 
 == Description ==
 
-The Smart Calendar Events plugin should allow creating events, displaying them in a calendar table, and showing events in the front end. Designed to seamlessly enhance your event management experience, Smart Calendar Events offers a range of powerful features and tools that empower you to take your event showcasing to the next level.
+Experience seamless event management with the Smart Calendar Events plugin, your ultimate solution for creating, organizing, and showcasing events effortlessly. With a robust set of features tailored to enhance your event management experience, Smart Calendar Events sets itself apart by offering intuitive event creation tools, a dynamic calendar table display, and seamless integration with your website's front end. You can show events anywhere on your website through the [smart-calendar-events] shortcode,
 
 == Installation ==
 

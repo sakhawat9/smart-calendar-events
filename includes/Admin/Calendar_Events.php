@@ -43,11 +43,13 @@ class Calendar_Events
 
     public function get_current_month_events()
     {
-        $current_month = date('n');
-        $current_year = date('Y');
+        // Create nonce
+        $nonce = wp_create_nonce( 'sce_event_nonce_action' );
+        $current_month = gmdate('n');
+        $current_year = gmdate('Y');
 
-        $start_date = date('Y-m-01', strtotime($current_year . '-' . $current_month . '-01'));
-        $end_date = date('Y-m-t', strtotime($current_year . '-' . $current_month . '-01'));
+        $start_date = gmdate('Y-m-01', strtotime($current_year . '-' . $current_month . '-01'));
+        $end_date = gmdate('Y-m-t', strtotime($current_year . '-' . $current_month . '-01'));
 
         $args = array(
             'post_type'      => 'calendar-events',

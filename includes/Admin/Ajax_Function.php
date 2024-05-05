@@ -43,10 +43,17 @@ class Ajax_Function
      */
     public function get_month_events()
     {
+        // Create nonce
+        $nonce = wp_create_nonce( 'sce_event_nonce_action' );
+        // Nonce verification
+        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'sce_event_nonce_action')) {
+            wp_die('Nonce verification failed');
+        }
+
         $current_month = isset($_POST['month']) ? $_POST['month'] : '';
         $current_year = isset($_POST['year']) ? $_POST['year'] : '';
-        $start_date = date('Y-m-01', strtotime($current_year . '-' . $current_month . '-01'));
-        $end_date = date('Y-m-t', strtotime($current_year . '-' . $current_month . '-01'));
+        $start_date = gmdate('Y-m-01', strtotime($current_year . '-' . esc_attr($current_month) . '-01'));
+        $end_date = gmdate('Y-m-t', strtotime($current_year . '-' . esc_attr($current_month) . '-01'));
 
         $args = array(
             'post_type'      => 'calendar-events',
@@ -61,6 +68,27 @@ class Ajax_Function
             ),
         );
 
+        $args = array(
+            'post_type'      => 'calendar-events',
+            'posts_per_page' => -1, // Consider limiting the number of posts
+            'meta_query'     => array(
+                'relation' => 'AND', // Adjust based on your needs
+                array(
+                    'key'     => 'event_date',
+                    'value'   => $start_date,
+                    'compare' => '>=',
+                    'type'    => 'DATE',
+                ),
+                array(
+                    'key'     => 'event_date',
+                    'value'   => $end_date,
+                    'compare' => '<=',
+                    'type'    => 'DATE',
+                ),
+            ),
+        );
+        
+
         $events_query = new \WP_Query($args);
         $current_month_events = $events_query->posts;
         $num_days = cal_days_in_month(CAL_GREGORIAN, $current_month, $current_year);
@@ -68,7 +96,8 @@ class Ajax_Function
         ob_start();
         include_once __DIR__ . '/views/calendar-template.php';
         $output = ob_get_clean();
-        echo $output;
+
+        echo wp_kses_post($output);
 
         wp_die();
     }

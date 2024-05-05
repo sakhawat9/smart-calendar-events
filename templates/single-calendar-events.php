@@ -17,29 +17,28 @@ get_header();
         ?>
 
             <article id="post-<?php the_ID(); ?>" <?php post_class('bg-white shadow-lg rounded-lg overflow-hidden'); ?>>
-                <header class="entry-header bg-gray-800 text-white px-4 py-6">
-                    <?php the_title('<h1 class="entry-title text-3xl font-bold">', '</h1>'); ?>
-                </header>
-
                 <?php if (has_post_thumbnail()) : ?>
                     <div class="entry-thumbnail">
                         <?php the_post_thumbnail('large', ['class' => 'w-full h-auto']); ?>
                     </div>
                 <?php endif; ?>
-
-                <div class="entry-content px-4 py-6">
-                    <?php the_content(); ?>
+                <div class="entry-header px-4 py-6">
+                    <?php the_title('<h1 class="entry-title text-3xl font-bold">', '</h1>'); ?>
                 </div>
-
-                <footer class="entry-footer bg-gray-200 text-gray-800 px-4 py-6">
+                <div class="entry-footer bg-gray-200 text-gray-800 px-4 py-6">
                     <?php
                     // Display event date
                     $event_date = get_post_meta(get_the_ID(), 'event_date', true);
                     if (!empty($event_date)) {
-                        echo '<p><strong>' . __('Event Date:', 'smart-calendar-events') . '</strong> ' . esc_html($event_date) . '</p>';
+                        echo '<p><strong>' . esc_html__('Event Date:', 'smart-calendar-events') . '</strong> ' . esc_html($event_date) . '</p>';
                     }
                     ?>
-                </footer>
+                </div>
+                <div class="entry-content px-4 py-6">
+                    <?php the_content(); ?>
+                </div>
+
+                
             </article>
 
         <?php
