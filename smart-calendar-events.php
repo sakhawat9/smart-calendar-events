@@ -93,11 +93,9 @@ class Smart_Calendar_Events
     }
     public function admin_enqueue_scripts($hook)
     {
+
         if ($hook == 'calendar-events_page_calendar-events-submenu') {
-            wp_enqueue_script('admin-page-tailwind', '//cdn.tailwindcss.com', [], '1.0', [
-                'in_footer' => true,
-                'strategy' => 'defer'
-            ]);
+           wp_enqueue_script('admin-page-tailwind', '//cdn.tailwindcss.com', [], '1.0',);
         }
     }
     public function frontend_enqueue_scripts()

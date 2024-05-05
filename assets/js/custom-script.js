@@ -1,53 +1,35 @@
-// jQuery(document).ready(function ($) {
-//   "use strict";
-//   var sce_myScript = function () {
-//     var ajaxurl = scevents.ajaxurl;
-//     document.addEventListener("DOMContentLoaded", function () {
-//       var calendar = document.getElementById("calendar");
-//       var currentMonth = parseInt(calendar.getAttribute("data-current-month"));
-//       var currentYear = parseInt(calendar.getAttribute("data-current-year"));
+jQuery(document).ready(function($) {
+    $('#prevMonth, #nextMonth').on('click', function() {
+        var currentMonth = parseInt($('#calendar').data('current-month'));
+        var currentYear = parseInt($('#calendar').data('current-year'));
+        var direction = $(this).attr('id') === 'prevMonth' ? -1 : 1;
 
-//       document
-//         .getElementById("prevMonth")
-//         .addEventListener("click", function () {
-//           currentMonth--;
-//           if (currentMonth < 1) {
-//             currentMonth = 12;
-//             currentYear--;
-//           }
-//           updateCalendar(currentMonth, currentYear);
-//         });
+        // Calculate the new month and year values
+        var newMonth = currentMonth + direction;
+        var newYear = currentYear;
 
-//       document
-//         .getElementById("nextMonth")
-//         .addEventListener("click", function () {
-//           currentMonth++;
-//           if (currentMonth > 12) {
-//             currentMonth = 1;
-//             currentYear++;
-//           }
-//           updateCalendar(currentMonth, currentYear);
-//         });
+        if (newMonth === 0) {
+            newMonth = 12;
+            newYear--;
+        } else if (newMonth === 13) {
+            newMonth = 1;
+            newYear++;
+        }
 
-//       function updateCalendar(month, year) {
-//         var xhr = new XMLHttpRequest();
-//         xhr.open("GET", ajaxurl + "?month=" + month + "&year=" + year, true);
-//         xhr.onload = function () {
-//           if (xhr.status >= 200 && xhr.status < 300) {
-//             var responseData = JSON.parse(xhr.responseText);
-//             updateCalendarContent(responseData);
-//           } else {
-//             console.error("Failed to retrieve events");
-//           }
-//         };
-//         xhr.send();
-//       }
-
-//       function updateCalendarContent(eventsData) {
-//         var calendarBody = document.getElementById("calendarBody");
-//         calendarBody.innerHTML = "";
-//       }
-//     });
-//   };
-//   sce_myScript();
-// });
+        // Make AJAX request to fetch events for the new month and year
+        $.ajax({
+            url: ajaxurl,
+            type: 'POST',
+            data: {
+                action: 'get_month_events',
+                month: newMonth,
+                year: newYear,
+            },
+            success: function(response) {
+                $('#calendar').html(response);
+                $('#calendar').data('current-month', newMonth);
+                $('#calendar').data('current-year', newYear);
+            }
+        });
+    });
+});

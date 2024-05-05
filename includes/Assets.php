@@ -25,7 +25,7 @@ class Assets {
             'sce-admin-script' => [
                 'src'     => SCE_ASSETS . '/js/custom-script.js',
                 'version' => filemtime( SCE_PATH . '/assets/js/custom-script.js' ),
-                'deps'    => [ 'jquery', 'wp-util' ]
+                'deps'    => [ 'jquery' ]
             ],
         ];
     }

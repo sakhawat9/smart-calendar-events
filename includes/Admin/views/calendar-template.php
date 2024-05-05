@@ -14,7 +14,7 @@
                 </svg>
             </button>
             <button type="button" class="px-4 py-2 rounded-md bg-blue-500 text-white text-sm font-semibold hover:bg-blue-600">
-                <a class="hover:text-white" href="<?php echo esc_url( admin_url( 'post-new.php?post_type=calendar-events' ) ); ?>" ><?php esc_html_e( 'Add event', 'smart-calendar-events' ); ?></a>
+                <a class="hover:text-white" href="<?php echo esc_url(admin_url('post-new.php?post_type=calendar-events')); ?>"><?php esc_html_e('Add event', 'smart-calendar-events'); ?></a>
             </button>
         </div>
     </header>
@@ -36,6 +36,7 @@
                 <tr>
                     <?php
                     $day_of_week = date('w', mktime(0, 0, 0, $current_month, 1, $current_year));
+
                     for ($i = 0; $i < $day_of_week; $i++) {
                         echo '<td class="px-4 py-2 border border-gray-200 w-[14.28%]"></td>';
                     }
@@ -44,7 +45,6 @@
                         $date = mktime(0, 0, 0, $current_month, $day, $current_year);
                         $event_date = date('Y-m-d', $date);
                         $event_titles = $this->get_event_titles_for_date($current_month_events, $event_date);
-
                         echo '<td class="px-4 py-2 border border-gray-200 w-[14.28%]">';
                         echo '<strong>' . $day . '</strong><br>';
                         if (!empty($event_titles)) {

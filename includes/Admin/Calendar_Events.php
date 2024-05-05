@@ -36,14 +36,14 @@ class Calendar_Events
 
         include_once __DIR__ . '/views/calendar-template.php';
     }
+/**
+ * Retrieves event titles for a specific date.
+ *
+ * @param array  $events An array of event posts.
+ * @param string $date   The date to filter events by.
+ * @return array An array of event titles.
+ */
 
-    /**
-     * Retrieves event titles for a specific date.
-     *
-     * @param array  $events An array of event posts.
-     * @param string $date   The date to filter events by.
-     * @return array An array of event titles.
-     */
     public function get_event_titles_for_date($events, $date)
     {
         $titles = array();
@@ -56,11 +56,8 @@ class Calendar_Events
         return $titles;
     }
 
-    /**
-     * Retrieves the events for the current month.
-     *
-     * @return array An array of event posts for the current month.
-     */
+
+
     public function get_current_month_events()
     {
         $current_month = date('n');
