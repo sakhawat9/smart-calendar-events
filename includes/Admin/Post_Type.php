@@ -57,7 +57,7 @@ class Post_Type
             'show_in_menu'       => true,
             'menu_icon'          => 'dashicons-calendar',
             'query_var'          => true,
-            'rewrite'            => array('slug' => 'calendar-events'),
+            'rewrite'            => array('slug' => 'calendar_events'),
             'capability_type'    => 'post',
             'has_archive'        => true,
             'hierarchical'       => false,
@@ -67,6 +67,8 @@ class Post_Type
         );
 
         register_post_type('calendar-events', $args);
+
+        flush_rewrite_rules();
     }
 
     public function add_custom_columns($columns)

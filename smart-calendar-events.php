@@ -42,9 +42,7 @@ class Smart_Calendar_Events
     public function __construct()
     {
         $this->define_constants();
-
         add_action('plugins_loaded', [$this, 'init_plugin']);
-        register_activation_hook( __FILE__, [$this, 'plugin_activate'] );
     }
 
     /**
@@ -89,13 +87,9 @@ class Smart_Calendar_Events
         new Assets();
         new Admin();
         new Frontend();
-
         load_plugin_textdomain('smart-calendar-events', false, dirname(SCE_BASENAME) . '/languages/');
     }
 
-    function plugin_activate() {
-        flush_rewrite_rules();
-    }
 }
 
 /**
