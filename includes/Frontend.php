@@ -8,59 +8,41 @@
 
 namespace Fixolab\SmartCalendarEvents;
 
-class Frontend
-{
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        add_filter('single_template', [$this, 'load_event_template']);
-        // add_filter('template_include', [$this, 'load_event_template']);
+class Frontend {
 
-        new Frontend\Shortcode();
-        add_action('wp_enqueue_scripts', [$this, 'frontend_assets']);
-    }
+	/**
+	 * Constructor method to initialize frontend functionality.
+	 */
+	public function __construct() {
+		add_filter( 'template_include', array( $this, 'load_event_template' ) );
 
-    public function frontend_assets()
-    {
+		new Frontend\Shortcode();
+		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_assets' ) );
+	}
 
-        wp_enqueue_style('sce-frontend-style');
-    }
+	/**
+	 * Enqueue frontend CSS styles.
+	 */
+	public function frontend_assets() {
+		wp_enqueue_style( 'sce-frontend-style' );
+	}
 
-    public function load_event_template($template)
-    {
-        // if (is_singular('calendar-events')) {
-        //     $custom_template = SCE_DIR_PATH_TEMPLATES . 'single-calendar-events.php';
-        //     if (file_exists($custom_template)) {
-        //         return $custom_template;
-        //     }
-        // }
-        // if (is_post_type_archive('calendar-events')) {
-        //     return SCE_DIR_PATH_TEMPLATES . 'archive-calendar-events.php';
-        // }
-        // return $template;
-
-
-
-        global $post;
-
-        if ($post->post_type == 'calendar-events') {
-            $single_template = SCE_DIR_PATH_TEMPLATES . 'single-calendar-events.php';
-        }
-        return $single_template;
-    }
-    // public function load_event_template($template)
-    // {
-    //     if (is_singular('calendar-events')) {
-    //         $custom_template = SCE_DIR_PATH_TEMPLATES . 'single-calendar-events.php';
-    //         if (file_exists($custom_template)) {
-    //             return $custom_template;
-    //         }
-    //     }
-    //     if (is_post_type_archive('calendar-events')) {
-    //         return SCE_DIR_PATH_TEMPLATES . 'archive-calendar-events.php';
-    //     }
-    //     return $template;
-    // }
+	/**
+	 * Load custom templates for 'calendar-events' post type and its archive.
+	 *
+	 * @param string $template The template to include.
+	 * @return string Custom template if available, otherwise the default template.
+	 */
+	public function load_event_template( $template ) {
+		if ( is_singular( 'calendar-events' ) ) {
+			$custom_template = SCE_DIR_PATH_TEMPLATES . 'single-calendar-events.php';
+			if ( file_exists( $custom_template ) ) {
+				return $custom_template;
+			}
+		}
+		if ( is_post_type_archive( 'calendar-events' ) ) {
+			return SCE_DIR_PATH_TEMPLATES . 'archive-calendar-events.php';
+		}
+		return $template;
+	}
 }

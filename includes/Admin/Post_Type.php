@@ -4,91 +4,99 @@ namespace Fixolab\SmartCalendarEvents\Admin;
 
 /**
  * Post Type class
+ *
  * @package    Smart_Calendar_Events
  * @subpackage Smart_Calendar_Events/admin
  */
 
-class Post_Type
-{
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        add_action('init', [$this, 'register_smart_calendar_events_post_type']);
-        add_action('manage_calendar-events_posts_columns', [$this, 'add_custom_columns']);
-        add_action('manage_calendar-events_posts_custom_column', [$this, 'render_custom_columns'], 10, 2);
-    }
+class Post_Type {
 
-    /**
-     * Register the custom post type for calendar events.
-     */
-    public function register_smart_calendar_events_post_type()
-    {
-        if (post_type_exists('calendar-events')) {
-            return;
-        }
+	/**
+	 * Constructor
+	 */
+	public function __construct() {
+		add_action( 'init', array( $this, 'register_smart_calendar_events_post_type' ) );
+		add_action( 'manage_calendar-events_posts_columns', array( $this, 'add_custom_columns' ) );
+		add_action( 'manage_calendar-events_posts_custom_column', array( $this, 'render_custom_columns' ), 10, 2 );
+	}
 
-        $plugin_admin = new Post_Meta();
+	/**
+	 * Register the custom post type for calendar events.
+	 */
+	public function register_smart_calendar_events_post_type() {
+		if ( post_type_exists( 'calendar-events' ) ) {
+			return;
+		}
 
-        $labels = array(
-            'name'               => esc_html__('Calendar Events', 'smart-calendar-events'),
-            'singular_name'      => esc_html__('Calendar Event', 'smart-calendar-events'),
-            'menu_name'          => esc_html__('Calendar Events', 'smart-calendar-events'),
-            'name_admin_bar'     => esc_html__('Calendar Event', 'smart-calendar-events'),
-            'add_new'            => esc_html__('Add New Event', 'smart-calendar-events'),
-            'add_new_item'       => esc_html__('Add New Event', 'smart-calendar-events'),
-            'new_item'           => esc_html__('New Event', 'smart-calendar-events'),
-            'edit_item'          => esc_html__('Edit Event', 'smart-calendar-events'),
-            'view_item'          => esc_html__('View Event', 'smart-calendar-events'),
-            'all_items'          => esc_html__('All Events', 'smart-calendar-events'),
-            'search_items'       => esc_html__('Search Events', 'smart-calendar-events'),
-            'parent_item_colon'  => esc_html__('Parent Events:', 'smart-calendar-events'),
-            'not_found'          => esc_html__('No events found.', 'smart-calendar-events'),
-            'not_found_in_trash' => esc_html__('No events found in Trash.', 'smart-calendar-events')
-        );
+		$plugin_admin = new Post_Meta();
 
-        $args = array(
-            'labels'             => $labels,
-            'description'        => esc_html__('Description.', 'smart-calendar-events'),
-            'public'             => true,
-            'publicly_queryable' => true,
-            'show_ui'            => true,
-            'show_in_menu'       => true,
-            'menu_icon'          => 'dashicons-calendar',
-            'query_var'          => true,
-            'rewrite'            => array('slug' => 'calendar_events'),
-            'capability_type'    => 'post',
-            'has_archive'        => true,
-            'hierarchical'       => false,
-            'menu_position'      => null,
-            'supports'           => array('title', 'editor', 'excerpt', 'thumbnail'),
-            'register_meta_box_cb' => array($plugin_admin, 'add_events_meta_box'),
-        );
+		$labels = array(
+			'name'               => esc_html__( 'Calendar Events', 'smart-calendar-events' ),
+			'singular_name'      => esc_html__( 'Calendar Event', 'smart-calendar-events' ),
+			'menu_name'          => esc_html__( 'Calendar Events', 'smart-calendar-events' ),
+			'name_admin_bar'     => esc_html__( 'Calendar Event', 'smart-calendar-events' ),
+			'add_new'            => esc_html__( 'Add New Event', 'smart-calendar-events' ),
+			'add_new_item'       => esc_html__( 'Add New Event', 'smart-calendar-events' ),
+			'new_item'           => esc_html__( 'New Event', 'smart-calendar-events' ),
+			'edit_item'          => esc_html__( 'Edit Event', 'smart-calendar-events' ),
+			'view_item'          => esc_html__( 'View Event', 'smart-calendar-events' ),
+			'all_items'          => esc_html__( 'All Events', 'smart-calendar-events' ),
+			'search_items'       => esc_html__( 'Search Events', 'smart-calendar-events' ),
+			'parent_item_colon'  => esc_html__( 'Parent Events:', 'smart-calendar-events' ),
+			'not_found'          => esc_html__( 'No events found.', 'smart-calendar-events' ),
+			'not_found_in_trash' => esc_html__( 'No events found in Trash.', 'smart-calendar-events' ),
+		);
 
-        register_post_type('calendar-events', $args);
+		$args = array(
+			'labels'               => $labels,
+			'description'          => esc_html__( 'Description.', 'smart-calendar-events' ),
+			'public'               => true,
+			'publicly_queryable'   => true,
+			'show_ui'              => true,
+			'show_in_menu'         => true,
+			'menu_icon'            => 'dashicons-calendar',
+			'query_var'            => true,
+			'rewrite'              => array( 'slug' => 'calendar_events' ),
+			'capability_type'      => 'post',
+			'has_archive'          => true,
+			'hierarchical'         => false,
+			'menu_position'        => null,
+			'supports'             => array( 'title', 'editor', 'excerpt', 'thumbnail' ),
+			'register_meta_box_cb' => array( $plugin_admin, 'add_events_meta_box' ),
+		);
 
-        flush_rewrite_rules();
-    }
+		register_post_type( 'calendar-events', $args );
 
-    public function add_custom_columns($columns)
-    {
+		flush_rewrite_rules();
+	}
 
-        $columns = array(
-            'cb' => $columns['cb'],
-            'title' => __( 'Title', 'smart-calendar-events' ),
-            'event_date' => __( 'Event Date', 'smart-calendar-events' ),
-            'date' => __( 'Date', 'smart-calendar-events' ),
-          );
+	/**
+	 * Adds custom columns to the calendar events admin table.
+	 *
+	 * @param array $columns An array of column names and labels.
+	 * @return array Modified array of column names and labels.
+	 */
+	public function add_custom_columns( $columns ) {
+		$columns = array(
+			'cb'         => $columns['cb'],
+			'title'      => __( 'Title', 'smart-calendar-events' ),
+			'event_date' => __( 'Event Date', 'smart-calendar-events' ),
+			'date'       => __( 'Date', 'smart-calendar-events' ),
+		);
 
-          return $columns;
-    }
+			return $columns;
+	}
 
-    public function render_custom_columns($column, $post_id)
-    {
-        if ($column === 'event_date') {
-            $event_date = get_post_meta($post_id, 'event_date', true);
-            echo esc_html($event_date);
-        }
-    }
+	/**
+	 * Renders content for custom columns in the calendar events admin table.
+	 *
+	 * @param string $column  The name of the column to render.
+	 * @param int    $post_id The ID of the current post.
+	 */
+	public function render_custom_columns( $column, $post_id ) {
+		if ( $column === 'event_date' ) {
+			$event_date = get_post_meta( $post_id, 'event_date', true );
+			echo esc_html( $event_date );
+		}
+	}
 }

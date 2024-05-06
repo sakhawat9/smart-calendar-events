@@ -89,7 +89,6 @@ class Smart_Calendar_Events
         new Frontend();
         load_plugin_textdomain('smart-calendar-events', false, dirname(SCE_BASENAME) . '/languages/');
     }
-
 }
 
 /**

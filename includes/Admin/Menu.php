@@ -4,34 +4,40 @@ namespace Fixolab\SmartCalendarEvents\Admin;
 
 /**
  * Menu Class
+ *
  * @package    Smart_Calendar_Events
  * @subpackage Smart_Calendar_Events/admin
  */
 
-class Menu
-{
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        add_action('admin_menu', [$this, 'add_submenu_page']);
-    }
+class Menu {
 
-    /**
-     * Add submenu page under the Calendar Events menu.
-     */
-    public function add_submenu_page()
-    {
-        $calendar_events = new Calendar_Events();
+	/**
+	 * Constructor
+	 */
+	public function __construct() {
+		add_action( 'admin_menu', array( $this, 'add_submenu_page' ) );
+	}
 
-        add_submenu_page(
-            'edit.php?post_type=calendar-events',
-            __('Calendar Events Table', 'smart-calendar-events'),
-            __('Calendar Events Table', 'smart-calendar-events'),
-            'manage_options',
-            'calendar-events-submenu',
-            array($calendar_events, 'get_current_month_events')
-        );
-    }
+	/**
+	 * Add submenu page under the Calendar Events menu.
+	 */
+	public function add_submenu_page() {
+		$calendar_events = new Calendar_Events();
+		add_submenu_page(
+			'edit.php?post_type=calendar-events',
+			__( 'Calendar Events Table', 'smart-calendar-events' ),
+			__( 'Calendar Events Table', 'smart-calendar-events' ),
+			'manage_options',
+			'calendar-events-submenu',
+			array( $calendar_events, 'get_current_month_events' )
+		);
+		add_submenu_page(
+			'edit.php?post_type=calendar-events',
+			__( 'Get Help', 'smart-calendar-events' ),
+			__( 'Get Help', 'smart-calendar-events' ),
+			'manage_options',
+			'calendar-events-help',
+			array( $calendar_events, 'get_help' )
+		);
+	}
 }

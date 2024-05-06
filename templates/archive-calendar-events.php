@@ -15,9 +15,7 @@ get_header();
         <header class="page-header">
             <h1 class="page-title"><?php post_type_archive_title(); ?></h1>
         </header>
-
         <div class="event-archive">
-
             <?php
             $output = "";
             $output = '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">';
@@ -50,10 +48,10 @@ get_header();
                 <p><?php esc_html_e('No events found.', 'smart-calendar-events'); ?></p>
             <?php endif; ?>
 
-        </div><!-- .event-archive -->
+        </div>
 
-    </main><!-- #main -->
-</div><!-- #primary -->
+    </main>
+</div>
 
 <?php
 get_footer();
